@@ -1,0 +1,103 @@
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Quote Generator</title>
+     <script src="script.js"></script>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+<body>
+  <div class="container">
+    <h1>Dynamic Quote Generator</h1>
+    
+    <div id="quoteDisplay">
+      <div class="quote-text">Click "Show New Quote" to begin your inspiration journey!</div>
+      <div class="quote-category">Welcome</div>
+    </div>
+
+    <div class="controls">
+      <button id="newQuote">Show New Quote</button>
+      <button id="toggleAddForm">Add New Quote</button>
+      <button id="clearQuotes">Clear All Custom Quotes</button>
+    </div>
+
+    <div class="storage-controls">
+      <button id="exportJson">📄 Export Quotes (JSON)</button>
+      <button id="importJsonBtn">📁 Import Quotes</button>
+      <input type="file" id="importFile" accept=".json" style="display: none;" />
+      <button id="clearStorage">🗑️ Clear All Data</button>
+    </div>
+
+    <div class="sync-controls">
+      <button id="syncNow">🔄 Sync with Server</button>
+      <button id="toggleAutoSync" class="auto-sync-off">⏰ Auto-Sync: OFF</button>
+      <div class="sync-status" id="syncStatus">
+        <span class="status-indicator offline"></span>
+        <span class="status-text">Offline</span>
+      </div>
+    </div>
+
+    <div class="category-filters" id="categoryFilters">
+      <button class="category-btn active" data-category="all">All Categories</button>
+    </div>
+
+    <div class="add-quote-form" id="addQuoteForm">
+      <h3 style="margin-bottom: 20px; color: #4a5568;">Add Your Own Quote</h3>
+      <div class="form-row">
+        <textarea id="newQuoteText" placeholder="Enter your inspirational quote here..."></textarea>
+      </div>
+      <div class="form-row">
+        <input id="newQuoteCategory" type="text" placeholder="Category (e.g., Motivation, Life, Success)" />
+        <input id="quoteAuthor" type="text" placeholder="Author (optional)" />
+      </div>
+      <button onclick="addQuote()" style="width: 100%;">Add Quote to Collection</button>
+      <div id="successMessage" class="success-message"></div>
+    </div>
+
+    <div class="stats" id="statsSection">
+      <div class="stat-item">
+        <div class="stat-number" id="totalQuotes">0</div>
+        <div class="stat-label">Total Quotes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="totalCategories">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="customQuotes">0</div>
+        <div class="stat-label">Your Quotes</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="sessionQuotes">0</div>
+        <div class="stat-label">Session Views</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-number" id="lastSyncTime">Never</div>
+        <div class="stat-label">Last Sync</div>
+      </div>
+    </div>
+
+    <!-- Conflict Resolution Modal -->
+    <div id="conflictModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>🔄 Data Sync Conflict Detected</h3>
+          <button class="modal-close" id="closeModal">&times;</button>
+        </div>
+        <div class="modal-body">
+          <p>Server data differs from your local data. How would you like to resolve this?</p>
+          <div class="conflict-options">
+            <button id="keepLocal" class="conflict-btn local">Keep Local Data</button>
+            <button id="useServer" class="conflict-btn server">Use Server Data</button>
+            <button id="mergeData" class="conflict-btn merge">Merge Both</button>
+          </div>
+          <div class="conflict-details" id="conflictDetails"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification System -->
+    <div id="notificationContainer" class="notification-container"></div>
+    </div>
+  </div>

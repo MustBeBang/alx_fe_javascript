@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sync Testing Guide - Dynamic Quote Generator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+        }
+        h2 {
+            color: #764ba2;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+        }
+        .test-case {
+            background: #f8f9fa;
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            border-radius: 5px;
+        }
+        .step {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .expected {
+            color: #4caf50;
+            font-weight: bold;
+        }
+        .note {
+            background: #fff3cd;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            border: 1px solid #ffeaa7;
+        }
+        code {
+            background: #e9ecef;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        .button-ref {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Sync Testing Guide</h1>
+    
+    <div class="test-section">
+        <h2>📋 Overview</h2>
+        <p>This guide helps you test the server synchronization and conflict resolution features of the Dynamic Quote Generator.</p>
+        <div class="note">
+            <strong>Note:</strong> The app uses JSONPlaceholder API for demonstration. In production, you would use your own backend API.
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔄 Test Case 1: Basic Sync Operation</h2>
+        <div class="test-case">
+            <h3>Steps:</h3>
+            <div class="step">1. Open the Dynamic Quote Generator</div>
+            <div class="step">2. Click <span class="button-ref">🔄 Sync with Server</span></div>
+            <div class="step">3. Watch the sync status indicator change from "Offline" to "Syncing" to "Online"</div>
+            <p class="expected">✓ Expected: You should see a notification "Sync completed successfully" and server quotes may be added</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>⏰ Test Case 2: Auto-Sync Feature</h2>
+        <div class="test-case">
+            <h3>Steps:</h3>
+            <div class="step">1. Click <span class="button-ref">⏰ Auto-Sync: OFF</span> to enable auto-sync</div>
+            <div class="step">2. The button should change to <span class="button-ref">⏰ Auto-Sync: ON</span></div>
+            <div class="step">3. Wait 30 seconds for automatic sync</div>
+            <p class="expected">✓ Expected: Auto-sync will trigger every 30 seconds, showing sync notifications</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>⚔️ Test Case 3: Conflict Resolution</h2>
+        <div class="test-case">
+            <h3>Setup:</h3>
+            <div class="step">1. Add a few custom quotes using the "Add New Quote" form</div>
+            <div class="step">2. Wait for the sync to complete</div>
+            <div class="step">3. Add more quotes locally</div>
+            <div class="step">4. Click <span class="button-ref">🔄 Sync with Server</span></div>
+            
+            <h3>Conflict Simulation:</h3>
+            <p>The app has a 10% chance to simulate a conflict. If a conflict occurs:</p>
+            <div class="step">• A modal will appear showing conflict details</div>
+            <div class="step">• You'll see three options:</div>
+            <div class="step">&nbsp;&nbsp;- <strong>Keep Local Data:</strong> Preserves your local quotes</div>
+            <div class="step">&nbsp;&nbsp;- <strong>Use Server Data:</strong> Replaces local with server quotes</div>
+            <div class="step">&nbsp;&nbsp;- <strong>Merge Both:</strong> Intelligently combines both datasets</div>
+            
+            <p class="expected">✓ Expected: Each option should resolve the conflict and update the quote collection accordingly</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📤 Test Case 4: Export/Import with Sync</h2>
+        <div class="test-case">
+            <h3>Steps:</h3>
+            <div class="step">1. Add several custom quotes</div>
+            <div class="step">2. Click <span class="button-ref">📄 Export Quotes (JSON)</span></div>
+            <div class="step">3. Clear all data using <span class="button-ref">🗑️ Clear All Data</span></div>
+            <div class="step">4. Import the previously exported file</div>
+            <div class="step">5. Enable auto-sync and verify quotes are synced</div>
+            <p class="expected">✓ Expected: Imported quotes should sync with the server without issues</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🔔 Test Case 5: Notification System</h2>
+        <div class="test-case">
+            <h3>Verify notifications appear for:</h3>
+            <div class="step">• Successful sync operations (green)</div>
+            <div class="step">• Failed sync attempts (red)</div>
+            <div class="step">• Conflict warnings (orange)</div>
+            <div class="step">• General information (blue)</div>
+            <p class="expected">✓ Expected: Notifications should appear in the top-right corner and auto-dismiss after 5 seconds</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🛠️ Advanced Testing</h2>
+        <div class="test-case">
+            <h3>Network Failure Simulation:</h3>
+            <div class="step">1. Open browser DevTools (F12)</div>
+            <div class="step">2. Go to Network tab</div>
+            <div class="step">3. Set throttling to "Offline"</div>
+            <div class="step">4. Try to sync</div>
+            <p class="expected">✓ Expected: Sync should fail gracefully with error notification</p>
+        </div>
+        
+        <div class="test-case">
+            <h3>Multiple Browser Testing:</h3>
+            <div class="step">1. Open the app in two different browsers or incognito windows</div>
+            <div class="step">2. Add quotes in both instances</div>
+            <div class="step">3. Sync both and observe conflict handling</div>
+            <p class="expected">✓ Expected: Each instance should handle its own data and conflicts independently</p>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>📊 Monitoring Sync Status</h2>
+        <div class="test-case">
+            <h3>Check these indicators:</h3>
+            <div class="step">• <strong>Status Indicator:</strong> Shows current connection state (red/orange/green dot)</div>
+            <div class="step">• <strong>Last Sync Time:</strong> Displays in the stats section</div>
+            <div class="step">• <strong>Total Quotes:</strong> Updates after successful sync</div>
+            <div class="step">• <strong>Your Quotes:</strong> Shows count of custom quotes</div>
+        </div>
+    </div>
+
+    <div class="test-section">
+        <h2>🐛 Troubleshooting</h2>
+        <div class="note">
+            <p><strong>If sync isn't working:</strong></p>
+            <ul>
+                <li>Check browser console for errors (F12 → Console)</li>
+                <li>Ensure you have internet connection</li>
+                <li>Try clearing browser cache and localStorage</li>
+                <li>Verify JSONPlaceholder API is accessible</li>
+            </ul>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 40px 0;">
+        <a href="index.html" style="background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 25px; display: inline-block;">
+            Open Quote Generator →
+        </a>
+    </div>
+</body>
+</html>
